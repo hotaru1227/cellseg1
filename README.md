@@ -244,10 +244,11 @@ Please refer to the individual source files for specific license details.
 If you use this code for your research, please cite our paper:
 
 ```bibtex
-@article{cellseg1,
-    title={CellSeg1: Efficient Cell Segmentation with Only One Training Image},
-    author={...},
-    journal={...},
-    year={2024}
+@article{zhou2024cellseg1,
+  title   = {CellSeg1: Robust Cell Segmentation with One Training Image},
+  author  = {Peilin Zhou and Bo Du and Yongchao Xu},
+  journal = {arXiv preprint arXiv:2412.01410},
+  url     = {https://arxiv.org/abs/2412.01410},
+  year    = {2024}
 }
 ```
