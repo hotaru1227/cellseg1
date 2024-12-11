@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 ### 3. Set Environment
 ```bash
-export PYTHONPATH=/path_to_your_code_folder/cellseg1/
+export PYTHONPATH=/data/hotaru/my_projects/cellseg1
 ```
 
 ### 4. Launch GUI

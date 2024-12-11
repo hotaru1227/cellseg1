@@ -1,6 +1,7 @@
 import os
 
 from data.dataset import TrainDataset
+from gui.pages import run_prediction
 
 
 def load_dataset(config):
@@ -14,6 +15,11 @@ def load_dataset(config):
     )
     return train_dataset
 
+
+def evaluate(model, config,state_manager):
+
+    run_prediction(config, state_manager)
+    return 1
 
 def train_model(config, state_manager):
     os.environ["CUDA_VISIBLE_DEVICES"] = config["selected_gpu"]
@@ -42,6 +48,9 @@ def train_model(config, state_manager):
     trainloader, optimizer, scheduler = setup_training(config, model, train_dataset)
 
     save_model = config["result_pth_path"]
+
+    max_aji = 0
+    max_pq = 0
     try:
         for epoch in range(config["epoch_max"]):
             if state_manager.check_stop_flag():
@@ -51,8 +60,17 @@ def train_model(config, state_manager):
             train_epoch(model, config, trainloader, optimizer, scheduler)
             progress = int(((epoch + 1) / config["epoch_max"]) * 100)
             current_epoch = epoch + 1
-
+            print("current_epoch:",current_epoch)
             state_manager.save_progress(progress, current_epoch)
+
+            if current_epoch ==1 or current_epoch % 10 == 0:
+                aji,pq = evaluate(model, config, state_manager)
+                if aji>max_aji:
+                    max_aji = aji
+                    save_model_pth(model, config['checkpoint_path']+"/bestaji.pth")
+                if pq>max_pq:
+                    max_pq = pq
+                    save_model_pth(model, config['checkpoint_path']+"/bestpq.pth")
         if save_model:
             save_model_pth(model, config["result_pth_path"])
     finally:
